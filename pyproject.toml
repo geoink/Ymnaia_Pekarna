@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bakery-forecast"
+version = "0.1.0"
+description = "Reproducible next-day bakery sales forecasting coursework"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26,<3", "pandas>=2.2,<4", "scikit-learn>=1.5,<2",
+  "matplotlib>=3.8,<4", "joblib>=1.3,<2", "threadpoolctl>=3.5,<4", "certifi>=2024.2.2"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
+notebook = ["nbformat>=5.10,<6", "nbclient>=0.10,<1", "ipykernel>=6.29,<8", "jupyterlab>=4,<5"]
+
+[project.scripts]
+bakery = "bakery_forecast.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

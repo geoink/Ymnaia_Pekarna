@@ -1,0 +1,41 @@
+name: ML task
+description: Задача исследования, данных или внедрения
+title: "[ML] "
+labels: ["ml-task"]
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Контекст и цель
+      description: Какое решение улучшаем и почему задача нужна?
+    validations:
+      required: true
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Входы и зависимости
+      description: Источники, версии, временные ограничения и связанные Issues.
+    validations:
+      required: true
+  - type: textarea
+    id: work
+    attributes:
+      label: Работы и артефакты
+      description: Что нужно сделать и какие файлы или результаты передать?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Критерии приёмки
+      description: Проверяемые условия завершения, включая метрики и ограничения.
+      value: "- [ ] "
+    validations:
+      required: true
+  - type: input
+    id: delivery
+    attributes:
+      label: Владелец, приоритет, поставка, оценка
+      placeholder: "Data Scientist; P1; R2; 3 человеко-дня"
+    validations:
+      required: true

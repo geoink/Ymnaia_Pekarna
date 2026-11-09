@@ -1,0 +1,201 @@
+{
+  "design": "post-hoc exploratory analysis; original test already exposed",
+  "original_model_unchanged": "hgb_absolute",
+  "monthly_windows": 11,
+  "backtest_rows": 2536,
+  "start": "2021-09-01",
+  "end_exclusive": "2022-08-01",
+  "data_sha256": "af5eede55b6eb2efb6bebb0e6dd1a51568c7eb73554d2f8ad2563081025681b2",
+  "monthly_wins_hgb_absolute": {
+    "lag_7": 10,
+    "weekday_mean_4": 11,
+    "weekday_median_4": 9,
+    "rolling_mean_7": 8
+  },
+  "aggregate": [
+    {
+      "model": "hgb_poisson",
+      "mae": 11.288646271532182,
+      "rmse": 22.162622729501226,
+      "wape_pct": 27.221473413338416,
+      "bias_units": -0.7558943246420744,
+      "n": 2536,
+      "mean_month_wape_pct": 28.317570621966716,
+      "worst_month_wape_pct": 41.519570893959255,
+      "mean_macro_mase_7": 0.8185305390395246,
+      "mean_macro_rmsse_7": 0.7838126275681688
+    },
+    {
+      "model": "hgb_absolute",
+      "mae": 11.645352329235772,
+      "rmse": 22.319429745728986,
+      "wape_pct": 28.081635405537778,
+      "bias_units": 0.17682399699678694,
+      "n": 2536,
+      "mean_month_wape_pct": 29.72083530086797,
+      "worst_month_wape_pct": 47.688254770226465,
+      "mean_macro_mase_7": 0.851706920934955,
+      "mean_macro_rmsse_7": 0.8113223319317627
+    },
+    {
+      "model": "history_only",
+      "mae": 11.961892506562819,
+      "rmse": 24.183284109624246,
+      "wape_pct": 28.84494128067104,
+      "bias_units": 0.4634215448167156,
+      "n": 2536,
+      "mean_month_wape_pct": 29.626843207747708,
+      "worst_month_wape_pct": 45.87740559919169,
+      "mean_macro_mase_7": 0.8370354944985057,
+      "mean_macro_rmsse_7": 0.7975180561741269
+    },
+    {
+      "model": "blend_absolute",
+      "mae": 13.012337960126962,
+      "rmse": 26.293593531494476,
+      "wape_pct": 31.37798840594671,
+      "bias_units": 0.05022178604260523,
+      "n": 2536,
+      "mean_month_wape_pct": 32.355645878592235,
+      "worst_month_wape_pct": 47.02370235482569,
+      "mean_macro_mase_7": 0.8919060941694584,
+      "mean_macro_rmsse_7": 0.8490913361577818
+    },
+    {
+      "model": "lag_7",
+      "mae": 14.589644811681483,
+      "rmse": 30.89382605484295,
+      "wape_pct": 35.181510590227205,
+      "bias_units": -0.40240303269285926,
+      "n": 2536,
+      "mean_month_wape_pct": 35.570023757170105,
+      "worst_month_wape_pct": 46.46879275865698,
+      "mean_macro_mase_7": 1.0265369959364117,
+      "mean_macro_rmsse_7": 1.0093874980001614
+    },
+    {
+      "model": "rolling_mean_7",
+      "mae": 15.319548971007963,
+      "rmse": 29.52011737492155,
+      "wape_pct": 36.94160353578232,
+      "bias_units": -0.3917924740874269,
+      "n": 2536,
+      "mean_month_wape_pct": 37.42405481594444,
+      "worst_month_wape_pct": 46.159187497908505,
+      "mean_macro_mase_7": 1.0118692193160401,
+      "mean_macro_rmsse_7": 0.9460686001504879
+    },
+    {
+      "model": "weekday_median_4",
+      "mae": 15.37220240655769,
+      "rmse": 33.29739249032533,
+      "wape_pct": 37.068572178563905,
+      "bias_units": -2.1530760085077905,
+      "n": 2536,
+      "mean_month_wape_pct": 37.09426131749449,
+      "worst_month_wape_pct": 64.28499190938511,
+      "mean_macro_mase_7": 1.0041158086535529,
+      "mean_macro_rmsse_7": 0.9564636370156681
+    },
+    {
+      "model": "weekday_mean_4",
+      "mae": 15.640012606347385,
+      "rmse": 32.79131603143782,
+      "wape_pct": 37.71437044861693,
+      "bias_units": -0.07638042491157612,
+      "n": 2536,
+      "mean_month_wape_pct": 38.107240123417796,
+      "worst_month_wape_pct": 66.85881877022653,
+      "mean_macro_mase_7": 1.01862932178382,
+      "mean_macro_rmsse_7": 0.9584323942266241
+    },
+    {
+      "model": "calendar_only",
+      "mae": 16.528697577268034,
+      "rmse": 34.32017061699868,
+      "wape_pct": 39.85734789045208,
+      "bias_units": 2.4267826053292376,
+      "n": 2536,
+      "mean_month_wape_pct": 40.07865885254039,
+      "worst_month_wape_pct": 68.37532214275718,
+      "mean_macro_mase_7": 1.0917792337682515,
+      "mean_macro_rmsse_7": 0.9815943569579584
+    }
+  ],
+  "bootstrap_sensitivity": [
+    {
+      "reference": "lag_7",
+      "low_pp": -17.216417808074187,
+      "high_pp": -3.9647493589298177,
+      "repeats": 2000,
+      "block_days": 3,
+      "interpretation": "candidate WAPE minus reference WAPE; negative favors candidate; approximate interval"
+    },
+    {
+      "reference": "lag_7",
+      "low_pp": -21.174116796602156,
+      "high_pp": -2.620799439963592,
+      "repeats": 2000,
+      "block_days": 7,
+      "interpretation": "candidate WAPE minus reference WAPE; negative favors candidate; approximate interval"
+    },
+    {
+      "reference": "lag_7",
+      "low_pp": -25.3101183574241,
+      "high_pp": -2.74159371102058,
+      "repeats": 2000,
+      "block_days": 14,
+      "interpretation": "candidate WAPE minus reference WAPE; negative favors candidate; approximate interval"
+    },
+    {
+      "reference": "weekday_mean_4",
+      "low_pp": -41.18325288194778,
+      "high_pp": -13.201759446267987,
+      "repeats": 2000,
+      "block_days": 3,
+      "interpretation": "candidate WAPE minus reference WAPE; negative favors candidate; approximate interval"
+    },
+    {
+      "reference": "weekday_mean_4",
+      "low_pp": -53.51455289446448,
+      "high_pp": -9.359102584535403,
+      "repeats": 2000,
+      "block_days": 7,
+      "interpretation": "candidate WAPE minus reference WAPE; negative favors candidate; approximate interval"
+    },
+    {
+      "reference": "weekday_mean_4",
+      "low_pp": -70.70736754060029,
+      "high_pp": -8.41640499561346,
+      "repeats": 2000,
+      "block_days": 14,
+      "interpretation": "candidate WAPE minus reference WAPE; negative favors candidate; approximate interval"
+    }
+  ],
+  "original_test_scaled_metrics": [
+    {
+      "model": "lag_7",
+      "macro_mase_7": 1.1069071119118132,
+      "macro_rmsse_7": 1.0350505530771967,
+      "scaled_products": 8
+    },
+    {
+      "model": "weekday_mean_4",
+      "macro_mase_7": 1.4872074606857582,
+      "macro_rmsse_7": 1.2759522930266014,
+      "scaled_products": 8
+    },
+    {
+      "model": "hgb_absolute",
+      "macro_mase_7": 0.792406174121952,
+      "macro_rmsse_7": 0.7473846386760418,
+      "scaled_products": 8
+    },
+    {
+      "model": "hgb_poisson",
+      "macro_mase_7": 0.7362771332234845,
+      "macro_rmsse_7": 0.7007480983111603,
+      "scaled_products": 8
+    }
+  ]
+}

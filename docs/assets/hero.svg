@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="380" viewBox="0 0 1280 380" role="img" aria-labelledby="title desc">
+  <title id="title">Умная пекарня</title>
+  <desc id="desc">Прогноз продаж и планирование выпечки. Курсовой проект по машинному обучению.</desc>
+  <rect width="1280" height="380" rx="20" fill="#F5EEE2"/>
+  <path d="M850 0H1260Q1280 0 1280 20V360Q1280 380 1260 380H850Z" fill="#E8DCC9"/>
+  <path d="M850 0V380" stroke="#D7C6AE"/>
+  <g font-family="Arial, Helvetica, sans-serif">
+    <rect x="54" y="42" width="180" height="30" rx="15" fill="#E2D5BF"/>
+    <text x="144" y="62" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="1.6" fill="#594331">AI MINOR / ML PROJECT</text>
+    <text x="52" y="154" font-size="65" font-weight="700" letter-spacing="-2.5" fill="#362A22">Умная пекарня</text>
+    <text x="55" y="202" font-size="23" fill="#685644">Прогноз продаж. Основа плана на завтра.</text>
+    <path d="M55 242H796" stroke="#D9CBB8"/>
+    <text x="55" y="280" font-size="15" font-weight="700" fill="#9D4F2D">01</text>
+    <text x="86" y="280" font-size="17" fill="#493A2D">Данные</text>
+    <path d="M207 274H260M252 268L260 274L252 280" stroke="#A68E70" fill="none" stroke-width="1.5"/>
+    <text x="296" y="280" font-size="15" font-weight="700" fill="#9D4F2D">02</text>
+    <text x="327" y="280" font-size="17" fill="#493A2D">Прогноз</text>
+    <path d="M454 274H507M499 268L507 274L499 280" stroke="#A68E70" fill="none" stroke-width="1.5"/>
+    <text x="540" y="280" font-size="15" font-weight="700" fill="#9D4F2D">03</text>
+    <text x="572" y="280" font-size="17" fill="#493A2D">Решение</text>
+    <text x="55" y="337" font-size="13" letter-spacing="0.5" fill="#7E6D59">GEOINK / YMNAIA_PEKARNA</text>
+  </g>
+  <circle cx="1063" cy="177" r="130" fill="#F1E7D7"/>
+  <g transform="translate(956 106) rotate(-20 100 64)">
+    <rect x="0" y="0" width="218" height="135" rx="67" fill="#B96638"/>
+    <rect x="8" y="-5" width="205" height="123" rx="61" fill="#D58A4B"/>
+    <path d="M51 26Q32 58 55 88M97 17Q74 54 99 94M145 18Q122 54 147 93M187 31Q168 58 187 81" stroke="#F7D9A5" stroke-width="12" fill="none" stroke-linecap="round"/>
+  </g>
+  <g fill="#8C745A">
+    <circle cx="951" cy="265" r="3"/><circle cx="975" cy="274" r="2"/>
+    <circle cx="1152" cy="276" r="3"/><circle cx="1173" cy="251" r="2"/>
+  </g>
+  <text x="1063" y="337" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2" fill="#705B45">BAKERY × DATA SCIENCE</text>
+</svg>

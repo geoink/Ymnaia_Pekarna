@@ -1,0 +1,7 @@
+reference,low_pp,high_pp,repeats,block_days,interpretation
+lag_7,-17.216417808074187,-3.9647493589298177,2000,3,candidate WAPE minus reference WAPE; negative favors candidate; approximate interval
+lag_7,-21.174116796602156,-2.620799439963592,2000,7,candidate WAPE minus reference WAPE; negative favors candidate; approximate interval
+lag_7,-25.3101183574241,-2.74159371102058,2000,14,candidate WAPE minus reference WAPE; negative favors candidate; approximate interval
+weekday_mean_4,-41.18325288194778,-13.201759446267987,2000,3,candidate WAPE minus reference WAPE; negative favors candidate; approximate interval
+weekday_mean_4,-53.51455289446448,-9.359102584535403,2000,7,candidate WAPE minus reference WAPE; negative favors candidate; approximate interval
+weekday_mean_4,-70.70736754060029,-8.41640499561346,2000,14,candidate WAPE minus reference WAPE; negative favors candidate; approximate interval

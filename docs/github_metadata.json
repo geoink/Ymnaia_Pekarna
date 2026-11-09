@@ -1,0 +1,14 @@
+{
+  "description": "Умная пекарня — прогноз продаж и поддержка планирования выпечки. ML-курсовая: реальные данные, временная валидация, 11 окон проверки, воспроизводимый код и план внедрения.",
+  "topics": [
+    "python",
+    "machine-learning",
+    "time-series",
+    "forecasting",
+    "demand-forecasting",
+    "bakery",
+    "scikit-learn",
+    "data-science",
+    "coursework"
+  ]
+}
