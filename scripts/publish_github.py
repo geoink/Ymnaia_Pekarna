@@ -33,7 +33,7 @@ def decorate_repository(repo):
     print("Updated repository description and topics.")
 
 
-def publish(repo, visibility, with_issues=False, dry_run=False, use_existing=False, decorate=False):
+def publish(repo, visibility, with_issues=False, dry_run=False, use_existing=False, decorate=False, presentation_release=False):
     if not re.fullmatch(r"[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)?", repo) or any(
         part in {".", ".."} for part in repo.split("/")
     ):
@@ -48,6 +48,9 @@ def publish(repo, visibility, with_issues=False, dry_run=False, use_existing=Fal
             print("Would update the About description and topics from docs/github_metadata.json.")
         if with_issues:
             import_tasks(repo if "/" in repo else f"AUTHENTICATED_USER/{repo}")
+        if presentation_release:
+            from release_presentation import publish_release
+            publish_release(repo if "/" in repo else f"AUTHENTICATED_USER/{repo}")
         return
     for executable in ("git", "gh"):
         if not shutil.which(executable):
@@ -99,7 +102,9 @@ def publish(repo, visibility, with_issues=False, dry_run=False, use_existing=Fal
             run("git", "config", "--local", key, value)
     run("git", "add", "--", *paths)
     if run("git", "diff", "--cached", "--name-only"):
-        run("git", "commit", "-m", "Add bakery forecasting research and ML delivery plan")
+        message = ("Update coursework presentation and defense materials" if presentation_release
+                   else "Add bakery forecasting research and ML delivery plan")
+        run("git", "commit", "-m", message)
     if exists:
         run("git", "push", "-u", "origin", "main")
     else:
@@ -110,6 +115,9 @@ def publish(repo, visibility, with_issues=False, dry_run=False, use_existing=Fal
         decorate_repository(full_repo)
     if with_issues:
         import_tasks(full_repo, apply=True)
+    if presentation_release:
+        from release_presentation import publish_release
+        publish_release(full_repo, apply=True)
 
 
 def main():
@@ -121,10 +129,11 @@ def main():
     parser.add_argument("--with-issues", action="store_true")
     parser.add_argument("--existing", action="store_true", help="Connect an existing empty repository, or push an already linked one")
     parser.add_argument("--decorate", action="store_true", help="Set About description, add topics and enable Issues")
+    parser.add_argument("--presentation-release", action="store_true", help="Attach PPTX, PDF and defense materials as release coursework-v2")
     parser.add_argument("--dry-run", action="store_true", help="Local preview; no Git/GitHub changes")
     args = parser.parse_args()
     try:
-        publish(args.repo, args.visibility, args.with_issues, args.dry_run, args.existing, args.decorate)
+        publish(args.repo, args.visibility, args.with_issues, args.dry_run, args.existing, args.decorate, args.presentation_release)
     except (ValueError, OSError, subprocess.CalledProcessError) as exc:
         parser.exit(1, f"Error: {getattr(exc, 'stderr', None) or exc}\n")
 

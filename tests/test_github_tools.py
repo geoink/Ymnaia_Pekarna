@@ -19,6 +19,7 @@ def load_script(name):
 
 tasks_module = load_script("github_tasks")
 publisher = load_script("publish_github")
+release_module = load_script("release_presentation")
 
 
 def test_backlog_is_complete_and_topologically_ordered():
@@ -170,3 +171,62 @@ def test_manifest_cannot_escape_delivery(tmp_path):
     (tmp_path / "MANIFEST.sha256").write_text("hash  ../other.txt\n")
     with pytest.raises(ValueError, match="Unsafe delivery path"):
         publisher.delivery_files(tmp_path)
+
+
+def release_fixture(tmp_path, monkeypatch):
+    monkeypatch.setattr(release_module, "ROOT", tmp_path)
+    for name in release_module.ASSETS + [release_module.NOTES]:
+        p = tmp_path / name
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text("release content", encoding="utf-8")
+
+
+def test_release_preview_is_offline(tmp_path, monkeypatch, capsys):
+    release_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(release_module, "run", lambda *args: pytest.fail("Preview called a command"))
+    release_module.publish_release("owner/bakery")
+    assert "presentation.pptx" in capsys.readouterr().out
+
+
+def test_release_refuses_unpushed_commit(tmp_path, monkeypatch):
+    release_fixture(tmp_path, monkeypatch)
+    def fake_run(*args):
+        if args[:3] == ("git", "rev-parse", "HEAD"):
+            return "local-sha"
+        if args[0] == "gh":
+            return "different-remote-sha"
+        return ""
+    monkeypatch.setattr(release_module, "run", fake_run)
+    with pytest.raises(ValueError, match="differs from GitHub"):
+        release_module.publish_release("owner/bakery", apply=True)
+
+
+@pytest.mark.parametrize("already_exists", [False, True])
+def test_release_creates_or_completes_assets_without_overwriting(tmp_path, monkeypatch, already_exists):
+    release_fixture(tmp_path, monkeypatch)
+    calls = []
+    first_asset = {"name": "presentation.pptx", "size": (tmp_path / release_module.ASSETS[0]).stat().st_size}
+    existing = {"url": "https://github.com/owner/bakery/releases/tag/coursework-v2", "assets": [first_asset]}
+    def fake_subprocess(args, **kwargs):
+        return subprocess.CompletedProcess(args, 0 if already_exists else 1, json.dumps(existing), "")
+    def fake_run(*args):
+        calls.append(args)
+        if args[:3] == ("git", "rev-parse", "HEAD") or args[:2] == ("gh", "api"):
+            return "same-sha"
+        if args[:3] == ("gh", "release", "view"):
+            return json.dumps({"url": existing["url"], "assets": [
+                {"name": (tmp_path / x).name, "size": (tmp_path / x).stat().st_size}
+                for x in release_module.ASSETS]})
+        return ""
+    monkeypatch.setattr(release_module.subprocess, "run", fake_subprocess)
+    monkeypatch.setattr(release_module, "run", fake_run)
+    release_module.publish_release("owner/bakery", apply=True)
+    mutations = [c for c in calls if c[:3] in [("gh", "release", "create"), ("gh", "release", "upload")]]
+    assert len(mutations) == 1
+    assert "--clobber" not in mutations[0]
+    if already_exists:
+        assert mutations[0][2] == "upload"
+        assert str(tmp_path / "docs/presentation.pptx") not in mutations[0]
+    else:
+        assert mutations[0][2] == "create"
+        assert mutations[0][mutations[0].index("--target") + 1] == "same-sha"

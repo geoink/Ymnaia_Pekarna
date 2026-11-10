@@ -9,11 +9,11 @@
 Из корня подготовленного проекта:
 
 ```bash
-gh auth login --hostname github.com --git-protocol https --web --scopes workflow &&
+gh auth login --hostname github.com --git-protocol https --web --clipboard --scopes workflow &&
 gh auth setup-git --hostname github.com &&
 python3 scripts/publish_github.py \
   --repo geoink/Ymnaia_Pekarna \
-  --public --existing --decorate --with-issues
+  --public --existing --decorate --with-issues --presentation-release
 ```
 
 При входе выберите аккаунт **geoink**. Scope `workflow` нужен для загрузки файла GitHub Actions. GitHub CLI попросит подтвердить вход в браузере. Скрипт использует этот вход; токены не передаются в тексте команды и не сохраняются в файлах проекта.
@@ -22,6 +22,7 @@ python3 scripts/publish_github.py \
 
 - README с обложкой «Умная пекарня», навигацией, результатами, графиками и схемой работы.
 - Исходники, выполненный ноутбук, презентация, обзор литературы и все сводные отчёты.
+- Отдельный выпуск `coursework-v2` с PPTX, PDF, текстом выступления и таблицей требований.
 - Описание в блоке About и девять тематических меток: Python, ML, forecasting и другие.
 - 18 Issues с постановками для ML-команды, критериями приёмки и ссылками на зависимости.
 - Цветные метки приоритетов и поставок R1–R4.
@@ -36,7 +37,7 @@ python3 scripts/publish_github.py \
 ```bash
 python3 scripts/publish_github.py \
   --repo geoink/Ymnaia_Pekarna \
-  --public --existing --decorate --with-issues --dry-run
+  --public --existing --decorate --with-issues --presentation-release --dry-run
 ```
 
 Этот режим не требует GitHub CLI или сети, показывает план и задачи, но не проверяет права доступа на сервере.
@@ -62,3 +63,24 @@ python3 scripts/github_tasks.py --repo geoink/Ymnaia_Pekarna --apply
 Для новых файлов, добавленных самостоятельно после этой поставки, используйте обычные `git add` / `git commit`: скрипт первой публикации добавляет только файлы manifest.
 
 Официальная документация: [gh repo view](https://cli.github.com/manual/gh_repo_view), [gh repo edit](https://cli.github.com/manual/gh_repo_edit), [создание Issue](https://cli.github.com/manual/gh_issue_create).
+
+## Отдельное вложение презентации в GitHub Releases
+
+Готовые файлы находятся в `docs/presentation.pptx` и `docs/presentation.pdf`. README содержит ссылки на скачивание и отдельную страницу презентации.
+
+Чтобы загрузить обновлённый проект и создать выпуск с PPTX, PDF, текстом выступления и таблицей требований, выполните из корня проекта:
+
+```bash
+python3 scripts/publish_github.py --repo geoink/Ymnaia_Pekarna \
+  --public --existing --decorate --with-issues --presentation-release
+```
+
+После успешного push появится выпуск `coursework-v2`. Повторный запуск с тем же коммитом дополняет недостающие вложения, не перезаписывая существующие. Для следующей версии презентации сначала загрузите новый коммит, затем выберите новый тег:
+
+```bash
+python3 scripts/release_presentation.py --repo geoink/Ymnaia_Pekarna --tag coursework-v3 --apply
+```
+
+Без `--apply` отдельный скрипт показывает локальный план. Он проверяет, что файлы закоммичены и `HEAD` совпадает с `main` на GitHub. Если версия тега указывает на другой коммит, публикация остановится до выбора нового тега.
+
+При входе через `gh auth login --web --clipboard` код активации появляется в Терминале и копируется в буфер. Его нужно вставить на странице Device Activation; этот код не приходит по email. Если браузер запрашивает отдельный код 2FA или подтверждение почты, это другой этап входа в аккаунт.

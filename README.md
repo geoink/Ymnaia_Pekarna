@@ -13,7 +13,7 @@
   <a href="docs/coursework.md">Курсовая</a> ·
   <a href="notebooks/01_bakery_forecasting.ipynb">Ноутбук</a> ·
   <a href="reports/results.md">Результаты</a> ·
-  <a href="docs/presentation.pptx">Презентация</a> ·
+  <a href="docs/presentation/README.md">Презентация</a> ·
   <a href="docs/ml_team/backlog.md">ML-команда</a>
 </p>
 
@@ -28,6 +28,14 @@
 | WAPE основной модели на исходном тесте | Относительное снижение WAPE против «как неделю назад» на том же тесте | Месяцев с меньшей ошибкой против этого правила в дополнительной проверке |
 
 Тест: август–сентябрь 2022, 472 наблюдения «товар–день». Дополнительная проверка: сентябрь 2021 — июль 2022; выполнена ретроспективно. **Снижение ошибки прогноза не означает доказанное снижение списаний или рост прибыли.**
+
+## Презентация и материалы защиты
+
+**[Скачать PowerPoint](docs/presentation.pptx?raw=true)** · **[Открыть PDF](docs/presentation.pdf)** · **[Заметки докладчика](docs/presentation.md)**
+
+Обновлённая презентация содержит 20 слайдов: бизнес-задачу, данные, методы, исходный тест, проверку на 11 месяцах и план пилота. Диаграммы и таблицы в PPTX редактируются. [Посмотреть структуру и все слайды](docs/presentation/README.md).
+
+Для проверки готовности к сдаче: [соответствие требованиям задания](docs/requirements_checklist.md) и [паспорт эксперимента](docs/experiment_passport.md). Отдельные вложения к выпускам находятся во вкладке [Releases](https://github.com/geoink/Ymnaia_Pekarna/releases) после публикации релиза.
 
 ## Задача и решение
 
@@ -53,7 +61,7 @@ flowchart LR
 | Сравнение моделей и экономические сценарии | [Основные результаты](reports/results.md) |
 | Литература, 11 окон, вклад признаков и неопределённость | [Обзор](docs/research_review.md) · [Расширенный эксперимент](reports/research/results.md) |
 | Данные, предположения и границы модели | [Data card](docs/data_card.md) · [Model card](docs/model_card.md) |
-| Материалы для защиты | [Слайды PPTX](docs/presentation.pptx) · [Текст выступления](docs/presentation.md) · [Вопросы](docs/defense_questions.md) |
+| Материалы для защиты | [Слайды PPTX/PDF](docs/presentation/README.md) · [Текст выступления](docs/presentation.md) · [Вопросы](docs/defense_questions.md) |
 | Постановка и внедрение | [Бриф](docs/ml_team/brief.md) · [18 задач](docs/ml_team/backlog.md) · [Поставки](docs/ml_team/delivery_plan.md) |
 
 ## Быстрый запуск
