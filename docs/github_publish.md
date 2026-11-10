@@ -1,6 +1,28 @@
 # Публикация в geoink/Ymnaia_Pekarna
 
-Репозиторий: [geoink/Ymnaia_Pekarna](https://github.com/geoink/Ymnaia_Pekarna). На момент проверки 09.11.2026 он был пустым. Команда ниже использует существующий репозиторий и не создаёт новый.
+Репозиторий курсовой — [geoink/Ymnaia_Pekarna](https://github.com/geoink/Ymnaia_Pekarna).
+
+## Обновление опубликованной работы
+
+После редактирования файлов из корня проекта выполните обычный коммит и отправку. Перед добавлением файлов проверьте список изменений командой `git status`.
+
+```bash
+git add -- README.md docs notebooks reports/figures MANIFEST.sha256
+git commit -m "Update coursework materials"
+git push origin main
+```
+
+Файлы в отдельном выпуске обновляются следующей командой.
+
+```bash
+gh release upload coursework-v2 docs/presentation.pptx docs/presentation.pdf \
+  docs/presentation.md docs/requirements_checklist.md \
+  --repo geoink/Ymnaia_Pekarna --clobber
+gh release edit coursework-v2 --repo geoink/Ymnaia_Pekarna \
+  --notes-file docs/release_notes.md
+```
+
+Флаг `--clobber` заменяет вложения с такими же именами. Команды ниже описывают первоначальную настройку и отдельный выпуск новой версии.
 
 ## Команда для владельца
 
@@ -20,7 +42,7 @@ python3 scripts/publish_github.py \
 
 ## Что появится после команды
 
-- README с обложкой «Умная пекарня», навигацией, результатами, графиками и схемой работы.
+- README с описанием курсовой, навигацией, результатами и графиками.
 - Исходники, выполненный ноутбук, презентация, обзор литературы и все сводные отчёты.
 - Отдельный выпуск `coursework-v2` с PPTX, PDF, текстом выступления и таблицей требований.
 - Описание в блоке About и девять тематических меток: Python, ML, forecasting и другие.
