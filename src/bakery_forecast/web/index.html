@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Умная пекарня · Проверка прогноза</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/">Умная пекарня<span>Лаборатория прогноза</span></a>
+    <span class="local-label"><span class="status-dot"></span> На вашем компьютере</span>
+  </header>
+  <main>
+    <section class="heading">
+      <p class="eyebrow">От истории продаж к плану на день</p>
+      <h1>Сколько понадобится<br><em>выпечки завтра?</em></h1>
+      <p class="lead">Загрузите продажи своей пекарни. Модель обучится на вашей истории, проверит себя на последних двух неделях и рассчитает следующий день.</p>
+    </section>
+    <div id="fileMode" class="notice error" hidden>Откройте приложение через «Запустить.command» на Mac или «Запустить.bat» на Windows. Они запускают Python-модель и открывают эту страницу в браузере.</div>
+    <div class="workspace">
+      <aside class="input-panel" aria-label="Данные и настройки">
+        <section class="upload-section">
+          <h2>Ваши продажи</h2>
+          <p class="help">CSV или Excel .xlsx, до 8 МБ. В Excel используется первый лист.</p>
+          <label class="drop-zone" id="dropZone" for="fileInput">
+            <span class="upload-symbol" aria-hidden="true">↥</span>
+            <strong id="fileLabel">Выберите файл</strong>
+            <span>или перетащите его сюда</span>
+            <input id="fileInput" type="file" accept=".csv,.xlsx" aria-label="Загрузить продажи">
+          </label>
+          <div class="sample-links"><a href="/template.csv" download="шаблон_продаж.csv">Скачать шаблон</a><button id="demoButton" class="text-button" type="button">Испытать на примере ↗</button></div>
+          <div id="demoLabel" class="notice" hidden>Учебный пример: 120 дней, 3 товара. Данные синтетические.</div>
+        </section>
+        <section id="mappingSection" class="mapping-section" hidden>
+          <h3>Столбцы таблицы</h3>
+          <div class="mapping-grid">
+            <label>Дата<select id="dateColumn" aria-label="Столбец даты"></select></label>
+            <label>Товар<select id="productColumn" aria-label="Столбец товара"></select></label>
+            <label>Продано, шт.<select id="quantityColumn" aria-label="Столбец количества"></select></label>
+          </div>
+          <button id="prepareButton" class="secondary-button" type="button">Прочитать таблицу</button>
+          <details class="file-preview"><summary>Первые строки файла</summary><div class="table-scroll"><table id="previewTable"></table></div></details>
+        </section>
+        <section id="dataSection" hidden>
+          <div class="data-summary" id="dataSummary"></div>
+          <p id="dataNotes" class="help"></p>
+          <div class="selection-heading"><h3>Ассортимент <span id="selectedCount"></span></h3><button id="selectAll" type="button" class="text-button">Выбрать все</button></div>
+          <div id="products" class="product-list"></div>
+          <label class="missing-label">Если товар отсутствует в день с другими продажами
+            <select id="missingMode"><option value="unknown">Оставить значение неизвестным</option><option value="zero">Считать продажи равными нулю</option></select>
+          </label>
+          <p class="help">День без каких-либо записей остаётся неизвестным. Явные нули в таблице учитываются как нулевые продажи.</p>
+          <button id="trainButton" class="primary-button" type="button" disabled>Обучить и получить прогноз <span aria-hidden="true">→</span></button>
+          <p class="local-note">Расчёт выполняется локально. Файл хранится в памяти приложения до закрытия или истечения часа.</p>
+        </section>
+        <div id="progress" class="progress" role="status" aria-live="polite" hidden><span class="spinner"></span><span id="progressText"></span></div>
+        <div id="error" class="notice error" role="alert" hidden></div>
+      </aside>
+      <div class="result-column">
+        <section id="welcome" class="welcome">
+          <span class="small-label">Как подготовить историю</span>
+          <h2>Три столбца.<br>Вся история вашей пекарни.</h2>
+          <p>Нужны даты, названия товаров и количество проданных единиц. Ассортимент определяется автоматически.</p>
+          <div class="example-table">
+            <div class="example-caption">Пример структуры файла</div>
+            <table><thead><tr><th>Дата</th><th>Товар</th><th>Продано</th></tr></thead><tbody><tr><td>2026-06-01</td><td>Багет</td><td>82</td></tr><tr><td>2026-06-01</td><td>Круассан</td><td>45</td></tr><tr><td>2026-06-02</td><td>Багет</td><td>79</td></tr></tbody></table>
+          </div>
+          <div class="requirements">
+            <div><strong>От 12 недель</strong><span>Минимум 84 календарных дня. Лучше загрузить несколько месяцев.</span></div>
+            <div><strong>До 100 товаров</strong><span>Можно выбрать часть ассортимента для отдельного расчёта.</span></div>
+            <div><strong>Один день вперёд</strong><span>Прогноз строится на дату сразу после конца вашего файла.</span></div>
+          </div>
+        </section>
+        <section id="result" hidden aria-label="Результат прогноза">
+          <div class="result-heading"><div><p class="eyebrow">Продажи на следующий день</p><h2 id="forecastTitle"></h2><p id="forecastSubtitle" class="help"></p></div><button id="downloadButton" class="secondary-button" type="button">Скачать CSV ↓</button></div>
+          <div id="resultDemo" class="notice" hidden>Это результат на синтетических учебных данных. Для своей пекарни загрузите собственную историю.</div>
+          <div class="table-scroll forecast-table"><table><thead><tr><th>Товар</th><th>ML, шт.</th><th>Округлённо</th><th>Неделю назад, шт.</th></tr></thead><tbody id="forecastRows"></tbody><tfoot id="forecastFooter"></tfoot></table></div>
+          <p class="help result-note">Прогноз предполагает рабочий день. Объём выпечки выбирайте с учётом остатков, срока хранения и мощности печи.</p>
+          <section class="quality-section">
+            <div class="section-heading"><h3>Как модель прошла проверку</h3><span id="checkDates" class="help"></span></div>
+            <div class="metrics"><div><span>Ошибка ML · WAPE</span><strong id="mlWape"></strong></div><div><span>«Неделю назад» · WAPE</span><strong id="baseWape"></strong></div><div><span>Средний промах ML · MAE</span><strong id="mlMae"></strong></div></div>
+            <p id="comparisonText" class="comparison"></p>
+            <details><summary>Ошибки по каждому товару</summary><div class="table-scroll"><table><thead><tr><th>Товар</th><th>ML WAPE</th><th>Неделю назад</th><th>MAE, шт.</th><th>Смещение, шт.</th></tr></thead><tbody id="qualityRows"></tbody></table></div></details>
+          </section>
+          <section class="history-section">
+            <div class="section-heading"><h3>История и прогноз</h3><label class="sr-only" for="chartProduct">Товар на графике</label><select id="chartProduct"></select></div>
+            <div class="legend"><span><i class="actual-line"></i>Продажи</span><span><i class="predicted-line"></i>ML на проверке</span><span><i class="next-dot"></i>Следующий день</span></div>
+            <div id="chart" class="chart" role="img" aria-label="График продаж и прогноза"></div>
+            <p id="chartHint" class="help">Выберите товар, чтобы посмотреть его историю. Пропуски в данных отображаются разрывами.</p>
+          </section>
+          <details class="method"><summary>Как устроен расчёт</summary><p>Используется градиентный бустинг с абсолютной ошибкой из курсовой. Он обучается на вашем ассортименте. Признаки включают календарь и прошлые продажи. Первые 35 дней формируют историю признаков, последние 14 календарных дней используются для проверки.</p><p>В проверке каждый прогноз делается на один день с уже известными продажами предыдущих дней. Для расчёта следующего дня модель отдельно обучается на всей доступной истории. WAPE показывает долю суммарной абсолютной ошибки. MAE выражается в штуках на товар за день. При нулевых суммарных продажах WAPE не определён.</p><p>Короткая проверка даёт предварительную оценку качества. Погода, акции, остатки и ограничения печи в эту модель не входят. Отрицательные строки суммируются как корректировки, отрицательный дневной итог ограничивается нулём.</p></details>
+        </section>
+      </div>
+    </div>
+    <footer>Умная пекарня · Курсовой проект <span>CSV / Excel → обучение → проверка → прогноз</span></footer>
+  </main>
+</body>
+</html>

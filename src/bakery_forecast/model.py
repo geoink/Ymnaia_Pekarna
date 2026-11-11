@@ -8,9 +8,12 @@ from .config import SEED
 from .features import baseline, model_input
 
 
-def fit_models(training):
+def fit_models(training, *, include_poisson=True):
     models = {}
-    for name, loss in (("hgb_absolute", "absolute_error"), ("hgb_poisson", "poisson")):
+    configurations = [("hgb_absolute", "absolute_error")]
+    if include_poisson:
+        configurations.append(("hgb_poisson", "poisson"))
+    for name, loss in configurations:
         estimator = HistGradientBoostingRegressor(
             loss=loss, learning_rate=0.06, max_iter=250, max_leaf_nodes=15,
             min_samples_leaf=20, l2_regularization=5.0, early_stopping=False,

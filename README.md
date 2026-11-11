@@ -6,6 +6,18 @@
 
 ![Умная пекарня](docs/assets/hero.png)
 
+## Испытать на своих данных
+
+Откройте локальный сайт, загрузите продажи CSV или Excel, выберите товары и нажмите **«Обучить и получить прогноз»**. Модель обучится на вашем ассортименте, покажет ошибку на последних двух неделях и прогноз на день после конца файла. Есть учебный пример и скачивание результата в CSV.
+
+Нужен Python 3.11 или новее. В папке проекта откройте **Запустить.command** на Mac или **Запустить.bat** на Windows. При первом запуске библиотеки устанавливаются через интернет. Приложение также можно запустить командой в Терминале.
+
+```bash
+python3 run_app.py
+```
+
+Далее откроется страница `http://127.0.0.1:8765`. Файл с продажами обрабатывается на вашем компьютере. Минимальная история — 84 календарных дня. [Инструкция и формат данных](docs/local_app.md).
+
 ## Материалы работы
 
 | Материал | Ссылка |
@@ -17,6 +29,7 @@
 | Условия эксперимента | [Краткое описание](docs/experiment_passport.md) · [Соответствие заданию](docs/requirements_checklist.md) |
 | Дополнительное исследование | [Обзор литературы](docs/research_review.md) · [Результаты 11 месячных проверок](reports/research/results.md) |
 | Возможное внедрение | [Задачи ML-команды](docs/ml_team/backlog.md) · [План работ](docs/ml_team/delivery_plan.md) |
+| Проверка на своих данных | [Локальное веб-приложение](docs/local_app.md) · [Учебный CSV](src/bakery_forecast/web/demo.csv) |
 
 Презентацию и материалы защиты также можно скачать из отдельного выпуска. [GitHub Releases](https://github.com/geoink/Ymnaia_Pekarna/releases).
 
@@ -69,7 +82,7 @@ git clone https://github.com/geoink/Ymnaia_Pekarna.git
 cd Ymnaia_Pekarna
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e '.[dev,notebook]'
+python -m pip install -e '.[dev,notebook,app]'
 bakery download
 bakery run
 bakery forecast
@@ -113,6 +126,8 @@ ruff check .
 
 ```text
 src/bakery_forecast/   обработка данных, признаки, модели и отчёты
+src/bakery_forecast/web/ локальный интерфейс для своих продаж
+run_app.py            запуск приложения и установка библиотек
 notebooks/            практическая часть исследования
 reports/              таблицы метрик и графики
 docs/                 текст курсовой и материалы защиты

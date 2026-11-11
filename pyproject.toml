@@ -16,9 +16,14 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
 notebook = ["nbformat>=5.10,<6", "nbclient>=0.10,<1", "ipykernel>=6.29,<8", "jupyterlab>=4,<5"]
+app = ["openpyxl>=3.1,<4"]
 
 [project.scripts]
 bakery = "bakery_forecast.cli:main"
+bakery-app = "bakery_forecast.webapp:main"
+
+[tool.setuptools.package-data]
+bakery_forecast = ["web/*.html", "web/*.css", "web/*.js", "web/*.csv"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
